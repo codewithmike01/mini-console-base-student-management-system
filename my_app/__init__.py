@@ -14,7 +14,23 @@ def display_student():
     """
     Display all students in the csv file
     """
-    pass
+    student_obj = {}
+    students_list = []
+    with open("students.csv", "r") as students:
+        
+        for student in students:
+            student_list = student.strip().split(',')
+
+            student_obj['id'] = student_list[0]  
+            student_obj['name'] =   student_list[1]    
+            student_obj['age'] =   student_list[2]    
+            student_obj['mentor'] =   student_list[3]    
+            student_obj['major'] =   student_list[4]  
+            
+            students_list.append(student_obj)
+            student_obj = {}
+            
+        Student.instantiate_students(students_list)
 
 def update_student():
     
@@ -29,21 +45,22 @@ def update_student():
     pass
 
 
-def validate_student_detail(name, age, mentor, major):
+def validate_student_detail(id, name, age, mentor, major):
     # Validation
+    assert isinstance(id, str), "Id must be string"
     assert isinstance(name, str), "name must be string"
     assert isinstance(age, int), "age must be integer"
     assert isinstance(mentor, str), "mentor must be string"
     assert isinstance(major, str), "major must be string"
 
-def instantiate_student(name, age, mentor, major):
+def instantiate_student(id, name, age, mentor, major):
     # Create instance of Student Class
-    Student(name, age, mentor, major)
+    Student(id, name, age, mentor, major)
 
-def save_student_detail(name, age, mentor, major):
+def save_student_detail(id, name, age, mentor, major):
     with open("students.csv",'a', newline='') as student:
         student_writer = csv.writer(student)
-        student_writer.writerow([name, age, mentor, major])
+        student_writer.writerow([id, name, age, mentor, major])
 
 def insert_student():
     """
@@ -52,15 +69,16 @@ def insert_student():
     Attribute: name is (str), age(int), 
     mentor(str), major(str)
     """
-     
+    
+    id = str(input('Enter Student Id: '))
     name = str(input('Enter Student name: '))
     age = int(input('Enter Student age: '))
     mentor = str(input('Enter Student mentor: '))
     major = str(input('Enter Student major: '))
 
-    validate_student_detail(name, age, mentor, major )
-    instantiate_student(name, age, mentor, major)
-    save_student_detail(name, age, mentor, major)
+    validate_student_detail(id, name, age, mentor, major)
+    instantiate_student(id, name, age, mentor, major)
+    save_student_detail(id, name, age, mentor, major)
    
 
     
@@ -80,12 +98,6 @@ def delete_student():
     pass
 
 def switch_option(opt):
-    
-    #  1. Display all students
-    # 2. Update Student detail
-    # 3. insert new Student detail
-    # 4. Delete a Student detail
-
     if opt == '1':
         display_student()
 
