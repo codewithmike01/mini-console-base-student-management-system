@@ -10,6 +10,13 @@ class Student:
         self.mentor = mentor
         self.major = major
 
+    @classmethod
+    def display_students(cls):
+         print('Students display')
+         for student in cls.all_student:
+              print(repr(student['obj']))
+
+
 
     @classmethod
     def instantiate_students(cls, students):
@@ -19,10 +26,6 @@ class Student:
               student['obj'] = student_obj
 
               cls.all_student.append(student)
-
-          for student in cls.all_student:
-
-              print(repr(student['obj']))
 
 
     def __repr__(self):

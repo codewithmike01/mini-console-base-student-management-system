@@ -21,6 +21,13 @@ def accept_update_input():
 
 def accept_initial_input():
     id = str(input('Enter Student Id () : '))
+
+    if valid_id_avialability(id):
+        print("""
+        Id is taken, Use a different Id
+        """)
+        insert_student()
+
     name = str(input('Enter Student name: '))
     age = int(input('Enter Student age: '))
     mentor = str(input('Enter Student mentor: '))
@@ -44,7 +51,7 @@ def valid_id_avialability(id):
     return False
 
 
-def display_student():
+def intsantiate_students_from_file():
     """Display all students in the csv file.
     """
 
@@ -65,7 +72,6 @@ def display_student():
             student_obj = {}
 
         Student.instantiate_students(students_list)
-        input('Hit enter to see options: ')
 
 def update_student():
 
@@ -155,12 +161,16 @@ def insert_student():
 
     id, name, age, mentor, major = accept_initial_input()
     validate_student_detail(id, name, age, mentor, major)
+
+
     instantiate_student(id, name, age, mentor, major)
     save_student_detail(id, name, age, mentor, major)
     print("""
 
     === Student Details Saved Sucessfully!!! ===
     """)
+
+
 
 
 
@@ -180,7 +190,7 @@ def delete_student():
 
 def switch_option(opt):
     if opt == '1':
-        display_student()
+        Student.display_students()
 
     elif opt == '2':
         update_student()
@@ -201,6 +211,9 @@ def switch_option(opt):
 
 
 def main():
+
+    intsantiate_students_from_file()
+
 
     print(' ======Options=====')
     display_options()
