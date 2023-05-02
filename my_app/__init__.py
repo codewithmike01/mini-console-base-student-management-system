@@ -173,11 +173,6 @@ def insert_student():
 
 
 
-
-
-
-
-
 def delete_student():
     """Accept Student Id.
 
@@ -186,7 +181,36 @@ def delete_student():
 
     Attribute: Id is str
     """
-    pass
+    id = select_id()
+
+
+
+    if valid_id_avialability(id):
+        def filtered_students(student):
+            if (student['id'] != id):
+                return student
+
+        new_students = filter(filtered_students,Student.all_student)
+
+        with open('students.csv', 'w', newline='') as student:
+                for student_list in new_students:
+                    student_list['obj'] = Student(
+                         student_list['id'],
+                         student_list['name'],
+                         student_list['age'],
+                         student_list['mentor'],
+                         student_list['major']
+                    )
+
+                    student_writer = csv.writer(student)
+                    student_writer.writerow([
+                        student_list['id'],
+                        student_list['name'],
+                        student_list['age'],
+                        student_list['mentor'],
+                        student_list['major'],
+                       ])
+
 
 def switch_option(opt):
     if opt == '1':
