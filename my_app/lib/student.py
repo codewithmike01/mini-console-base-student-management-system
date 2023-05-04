@@ -20,10 +20,13 @@ class Student(Person):
          try:
               id = str(input('Enter Student selected Id: '))
               Student.delete_student(id)
+              print("""
+
+                === Student Details Deleted Sucessfully!!! ===
+                """)
 
          except KeyboardInterrupt:
               Student.keyboard_interrupt_handler()
-
 
     @staticmethod
     def accept_initial_input():
@@ -49,6 +52,11 @@ class Student(Person):
                  mentor = str(input('Enter Student mentor: '))
                  major = str(input('Enter Student major: '))
                  Student.insert_student(id, name, age, major, mentor)
+
+                 print("""
+
+                    === Student Details Saved Sucessfully!!! ===
+                    """)
 
              except ValueError:
                  print("""
@@ -84,6 +92,11 @@ class Student(Person):
 
                  Student.update_student(id, name, age, major, mentor )
 
+                 print("""
+
+                    === Student Details Updated Sucessfully!!! ===
+                    """)
+
              except ValueError:
                  print("""
 
@@ -110,12 +123,7 @@ class Student(Person):
 
         Student.save_student_details_csv_file(id, name, age, mentor, major)
 
-        print("""
-
-        === Student Details Saved Sucessfully!!! ===
-        """)
-
-        return {"status": 200} # To mimic a response from server
+        return {"status": 200, "message": "Student Created Successfully!"} # To mimic a response from server
 
     @classmethod
     def update_student(cls, id: str, name: str, age: int, mentor: str, major: str):
@@ -144,12 +152,7 @@ class Student(Person):
                 students_list = map(get_update,Student.all_student)
                 Student.write_to_csv_file(students_list)
 
-                print("""
-
-                === Student Details Updated Sucessfully!!! ===
-                """)
-
-                return {"status": 200} # To mimic a response from server
+                return {"status": 200, "message":"Student Updated Successfully!"} # To mimic a response from server
 
         else: # No valid Id
             print("""
@@ -175,10 +178,7 @@ class Student(Person):
             new_students = filter(filtered_students,Student.all_student)
             Student.write_to_csv_file(new_students)
 
-            print("""
-
-            === Student Details Deleted Sucessfully!!! ===
-            """)
+            return {"status":200, "message" : "Student Deleted Successfully!"}
 
         else: # No valid Id
             print("""
@@ -243,6 +243,7 @@ class Student(Person):
          print(f"""
          ===== Display All {len(Student.all_student)} Students =====
          """)
+
          for index, student in enumerate(cls.all_student):
 
               print(Student.__repr__(student['obj'], index))

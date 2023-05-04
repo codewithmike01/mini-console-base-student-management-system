@@ -41,9 +41,7 @@ def main():
 
     display_options()
 
-    #Exception Handled For Keyboard Interrupt
-
-    try:
+    try: #Exception Handled For Keyboard Interrupt
 
         option: str = str(input('Select an Option: '))
 
@@ -55,6 +53,6 @@ def main():
         main()
 
 
-# Main Calling point
 
-main()
+
+main() # Main Calling point
