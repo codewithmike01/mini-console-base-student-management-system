@@ -113,13 +113,13 @@ class Student:
 
 
     def save_student_details_csv_file(id, name, age, mentor, major):
-        with open("students.csv",'a', newline='') as student:
+        with open("./data/students.csv",'a', newline='') as student:
             student_writer = csv.writer(student)
             student_writer.writerow([id, name, age, mentor, major])
 
 
     def write_to_csv_file(new_student_list):
-        with open('students.csv', 'w', newline='') as student:
+        with open('./data/students.csv', 'w', newline='') as student:
                     for student_list in new_student_list:
 
                         student_writer = csv.writer(student)
@@ -169,7 +169,7 @@ class Student:
         student_obj = {}
         students_list = []
 
-        with open("students.csv", "r") as students:
+        with open("./data/students.csv", "r") as students:
 
             for student in students:
                 student_list = student.strip().split(',')
