@@ -36,7 +36,7 @@ def switch_option(opt):
 def main():
     Student.intsantiate_students_from_file()
 
-    print(' ======Options=====')
+    print('=========== Options ============')
 
     display_options()
 

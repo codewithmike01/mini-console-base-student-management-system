@@ -24,6 +24,7 @@ class Student(Person):
 
         return id, name, age, mentor, major
 
+
     def accept_update_input():
         name = str(input('Enter Student name: '))
         age = int(input('Enter Student age: '))
@@ -42,7 +43,6 @@ class Student(Person):
         """
 
         id, name, age, mentor, major = Student.accept_initial_input()
-        Student.validate_student_detail(id, name, age, mentor, major)
         Student.save_student_details_csv_file(id, name, age, mentor, major)
         print("""
 
@@ -140,13 +140,7 @@ class Student(Person):
                         ])
 
 
-    def validate_student_detail(id, name, age, mentor, major):
-        # Validation
-        assert isinstance(id, str), "Id must be string"
-        assert isinstance(name, str), "name must be string"
-        assert isinstance(age, int), "age must be integer"
-        assert isinstance(mentor, str), "mentor must be string"
-        assert isinstance(major, str), "major must be string"
+
 
     def is_valid_id(id):
         for student in Student.all_student:
