@@ -237,6 +237,16 @@ class Student(Person):
 
     @classmethod
     def __instantiate_students(cls, students):
+          """
+          __instantaite_students class method
+          helps to append student records in CSV file
+          into the class property array
+          called all_student and intstantiate all records.
+
+          Attribute: all_student [{
+          id , name, age, major, mentor
+          }].
+          """
 
           cls.all_student = []
 
