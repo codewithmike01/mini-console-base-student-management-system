@@ -33,7 +33,7 @@ class Student(Person):
         No Parameters
         """
 
-        try:
+        try: # Handle Exception KeyboardInterrupt
              id = str(input('Enter Student Id () : '))
 
              if Student.is_valid_id(id): # Check of ID Already exist
@@ -44,9 +44,7 @@ class Student(Person):
 
              name = str(input('Enter Student name: '))
 
-            # Handle Exception ValueError on int age
-
-             try:
+             try: # Handle Exception ValueError & KeyboardInterrupt
                  age = int(input('Enter Student age: '))
                  mentor = str(input('Enter Student mentor: '))
                  major = str(input('Enter Student major: '))
@@ -67,8 +65,6 @@ class Student(Person):
         except KeyboardInterrupt:
              Student.keyboard_interrupt_handler()
 
-
-
     @staticmethod
     def accept_update_input():
         """
@@ -77,25 +73,28 @@ class Student(Person):
         No Parameters
         """
 
-        id = str(input('Enter Student selected Id: '))
+        try: # Handle Exception KeyboardInterrupt
+             id = str(input('Enter Student selected Id: '))
 
-        try:
+             try:
+                 name = str(input('Enter Student name: '))
+                 age = int(input('Enter Student age: '))
+                 mentor = str(input('Enter Student mentor: '))
+                 major = str(input('Enter Student major: '))
 
-            name = str(input('Enter Student name: '))
-            age = int(input('Enter Student age: '))
-            mentor = str(input('Enter Student mentor: '))
-            major = str(input('Enter Student major: '))
+                 Student.update_student(id, name, age, major, mentor )
 
-            Student.update_student(id, name, age, major, mentor )
+             except ValueError:
+                 print("""
 
-        except ValueError:
-             print("""
+                ====== You should enter number(s) for age ======
 
-             ====== You should enter number(s) for age ======
+                """)
 
-             """)
+                 Student.accept_update_input()
 
-             Student.accept_update_input()
+             except KeyboardInterrupt:
+                 Student.keyboard_interrupt_handler()
 
         except KeyboardInterrupt:
              Student.keyboard_interrupt_handler()
@@ -118,11 +117,8 @@ class Student(Person):
 
         return {"status": 200} # To mimic a response from server
 
-
-
     @classmethod
     def update_student(cls, id: str, name: str, age: int, mentor: str, major: str):
-
         """update_student.
 
         Use student id to map students list and
@@ -161,8 +157,6 @@ class Student(Person):
 
             """)
 
-
-
     @classmethod
     def delete_student(cls, id: str):
         """
@@ -192,7 +186,6 @@ class Student(Person):
 
             """)
 
-
     def save_student_details_csv_file(id: str, name: str, age: int, mentor: str, major: str):
         """
         save_student_details_csv_file into the csv file for students
@@ -205,7 +198,6 @@ class Student(Person):
         with open("./data/students.csv",'a', newline='') as student:
             student_writer = csv.writer(student)
             student_writer.writerow([id, name, age, mentor, major])
-
 
     def write_to_csv_file(new_student_list: list):
         """
@@ -309,8 +301,6 @@ class Student(Person):
                    student['major'],
                    student['mentor'])
               cls.all_student.append(student)
-
-
 
     def __repr__(self, index):
 
