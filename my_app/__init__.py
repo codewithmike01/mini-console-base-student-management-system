@@ -28,7 +28,7 @@ def switch_option(opt):
         Student.accept_initial_input()
 
     elif opt == '4':
-        Student.delete_student()
+        Student.accept_delete_input()
 
     elif opt == '5':
         Person.keyboard_interrupt_handler()

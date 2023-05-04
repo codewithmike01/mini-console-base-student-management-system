@@ -9,6 +9,22 @@ class Student(Person):
          super().__init__(id, name, age, major)
          self.mentor = mentor
 
+
+    @staticmethod
+    def accept_delete_input():
+         """
+         accept_delete_input process delete students insert value.
+
+         No Parameters
+         """
+         try:
+              id = str(input('Enter Student selected Id: '))
+              Student.delete_student(id)
+
+         except KeyboardInterrupt:
+              Student.keyboard_interrupt_handler()
+
+
     @staticmethod
     def accept_initial_input():
         """
@@ -17,30 +33,41 @@ class Student(Person):
         No Parameters
         """
 
-        id = str(input('Enter Student Id () : '))
-
-        if Student.is_valid_id(id): # Check of ID Already exist
-            print("""
-            Id is taken, Use a different Id
-            """)
-            Student.accept_initial_input()
-
-        name = str(input('Enter Student name: '))
-
-        # Handle Exception ValueError on int age
-
         try:
-            age = int(input('Enter Student age: '))
-            mentor = str(input('Enter Student mentor: '))
-            major = str(input('Enter Student major: '))
-            Student.insert_student(id, name, age, major, mentor)
+             id = str(input('Enter Student Id () : '))
 
-        except ValueError:
-             print("""
+             if Student.is_valid_id(id): # Check of ID Already exist
+                 print("""
+                Id is taken, Use a different Id
+                """)
+                 Student.accept_initial_input()
 
-             ====== You should enter number(s) for age ======
+             name = str(input('Enter Student name: '))
 
-             """)
+            # Handle Exception ValueError on int age
+
+             try:
+                 age = int(input('Enter Student age: '))
+                 mentor = str(input('Enter Student mentor: '))
+                 major = str(input('Enter Student major: '))
+                 Student.insert_student(id, name, age, major, mentor)
+
+             except ValueError:
+                 print("""
+
+                ====== You should enter number(s) for age ======
+
+                """)
+
+                 Student.accept_initial_input()
+
+             except KeyboardInterrupt:
+                 Student.keyboard_interrupt_handler()
+
+        except KeyboardInterrupt:
+             Student.keyboard_interrupt_handler()
+
+
 
     @staticmethod
     def accept_update_input():
@@ -68,12 +95,18 @@ class Student(Person):
 
              """)
 
+             Student.accept_update_input()
+
+        except KeyboardInterrupt:
+             Student.keyboard_interrupt_handler()
+
     @classmethod
-    def insert_student(cls, id, name, age, major, mentor):
+    def insert_student(cls, id: str, name: str, age: int, mentor: str, major: str):
         """
         insert_student.
 
-        No Parameters
+        Attribute: id: str, name: str ,
+        age: int, mentor: str, major: str
         """
 
         Student.save_student_details_csv_file(id, name, age, mentor, major)
@@ -82,19 +115,21 @@ class Student(Person):
 
         === Student Details Saved Sucessfully!!! ===
         """)
+
         return {"status": 200} # To mimic a response from server
 
 
 
     @classmethod
-    def update_student(cls, id, name, age, mentor, major):
+    def update_student(cls, id: str, name: str, age: int, mentor: str, major: str):
 
         """update_student.
 
         Use student id to map students list and
         update student detail
 
-        Attribute: id is str
+        Attribute: id: str, name: str ,
+        age: int, mentor: str, major: str
         """
 
         if Student.is_valid_id(id):
@@ -129,7 +164,7 @@ class Student(Person):
 
 
     @classmethod
-    def delete_student(cls):
+    def delete_student(cls, id: str):
         """
         delete_student Use student id to filter student and
         delete student detail.
@@ -137,35 +172,28 @@ class Student(Person):
         Attribute: id is str
         """
 
-        try:
+        if Student.is_valid_id(id):
 
-            id = str(input('Enter Student selected Id: '))
+            def filtered_students(student): # Filter Callback Function
+                if (student['id'] != id):
+                    return student
 
-            if Student.is_valid_id(id):
+            new_students = filter(filtered_students,Student.all_student)
+            Student.write_to_csv_file(new_students)
 
-                def filtered_students(student): # Filter Callback Function
-                    if (student['id'] != id):
-                        return student
+            print("""
 
-                new_students = filter(filtered_students,Student.all_student)
-                Student.write_to_csv_file(new_students)
-                print("""
+            === Student Details Deleted Sucessfully!!! ===
+            """)
 
-                === Student Details Deleted Sucessfully!!! ===
-                """)
+        else: # No valid Id
+            print("""
+            Id not found in record
 
-            else: # No valid Id
-                print("""
-                Id not found in record
-
-                """)
-
-        except KeyboardInterrupt:
-             Student.keyboard_interrupt_handler()
+            """)
 
 
-
-    def save_student_details_csv_file(id, name, age, mentor, major):
+    def save_student_details_csv_file(id: str, name: str, age: int, mentor: str, major: str):
         """
         save_student_details_csv_file into the csv file for students
         record, appending to the existing data.
@@ -179,7 +207,7 @@ class Student(Person):
             student_writer.writerow([id, name, age, mentor, major])
 
 
-    def write_to_csv_file(new_student_list):
+    def write_to_csv_file(new_student_list: list):
         """
         write_to_csv_file writes into the csv file for students
         record and overriding previous data
@@ -202,7 +230,7 @@ class Student(Person):
                         ])
 
     @staticmethod
-    def is_valid_id(id):
+    def is_valid_id(id: str):
         """
         is_valid_id checks if id is present in record returns true
         returns False if id does not exist in record.
@@ -259,7 +287,7 @@ class Student(Person):
 
 
     @classmethod
-    def __instantiate_students(cls, students):
+    def __instantiate_students(cls, students: list):
           """
           __instantaite_students class method
           helps to append student records in CSV file
