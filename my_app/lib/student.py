@@ -1,13 +1,11 @@
 import csv
+from lib.person import Person
 
-class Student:
+class Student(Person):
     all_student = []
 
     def __init__(self, id, name, age, major, mentor ) -> None:
-         self.id = id
-         self.name = name
-         self.age = age
-         self.major = major
+         super().__init__(id, name, age, major)
          self.mentor = mentor
 
     def accept_initial_input():
@@ -61,7 +59,7 @@ class Student:
         Attribute: Id is str
         """
 
-        id = Student.select_id()
+        id = str(input('Enter Student selected Id: '))
 
         if Student.is_valid_id(id):
             name, age, mentor, major = Student.accept_update_input()
@@ -95,7 +93,7 @@ class Student:
 
         Attribute: Id is str
         """
-        id = Student.select_id()
+        id = str(input('Enter Student selected Id: '))
 
         if Student.is_valid_id(id):
             def filtered_students(student):
@@ -105,11 +103,6 @@ class Student:
             new_students = filter(filtered_students,Student.all_student)
             Student.write_to_csv_file(new_students)
 
-
-
-    def select_id():
-        id = str(input('Enter Student selected Id: '))
-        return id
 
 
     def save_student_details_csv_file(id, name, age, mentor, major):
