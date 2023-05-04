@@ -5,7 +5,7 @@ from lib.person import Person
 class Student(Person):
     all_student = []
 
-    def __init__(self, id, name, age, major, mentor ) -> None:
+    def __init__(self, id: str, name: str, age: int, major: str, mentor: str ) -> None:
          super().__init__(id, name, age, major)
          self.mentor = mentor
 
@@ -33,7 +33,7 @@ class Student(Person):
             age = int(input('Enter Student age: '))
             mentor = str(input('Enter Student mentor: '))
             major = str(input('Enter Student major: '))
-            return id, name, age, mentor, major
+            Student.insert_student(id, name, age, major, mentor)
 
         except ValueError:
              print("""
@@ -50,6 +50,8 @@ class Student(Person):
         No Parameters
         """
 
+        id = str(input('Enter Student selected Id: '))
+
         try:
 
             name = str(input('Enter Student name: '))
@@ -57,7 +59,7 @@ class Student(Person):
             mentor = str(input('Enter Student mentor: '))
             major = str(input('Enter Student major: '))
 
-            return  name, age, mentor, major
+            Student.update_student(id, name, age, major, mentor )
 
         except ValueError:
              print("""
@@ -67,29 +69,25 @@ class Student(Person):
              """)
 
     @classmethod
-    def insert_student(cls):
+    def insert_student(cls, id, name, age, major, mentor):
         """
         insert_student.
 
         No Parameters
         """
 
-        try: # Exception Handler
-            id, name, age, mentor, major = Student.accept_initial_input()
-            Student.save_student_details_csv_file(id, name, age, mentor, major)
-            print("""
+        Student.save_student_details_csv_file(id, name, age, mentor, major)
 
-            === Student Details Saved Sucessfully!!! ===
-            """)
+        print("""
 
-        except TypeError:
-             Student.insert_student()
+        === Student Details Saved Sucessfully!!! ===
+        """)
+        return {"status": 200} # To mimic a response from server
 
-        except KeyboardInterrupt:
-             Student.keyboard_interrupt_handler()
+
 
     @classmethod
-    def update_student(cls):
+    def update_student(cls, id, name, age, mentor, major):
 
         """update_student.
 
@@ -98,43 +96,37 @@ class Student(Person):
 
         Attribute: id is str
         """
-        try:
 
-            id = str(input('Enter Student selected Id: '))
+        if Student.is_valid_id(id):
 
-            if Student.is_valid_id(id):
-                try: # Exception Handler
-                    name, age, mentor, major = Student.accept_update_input()
+                def get_update(student): # Map callback function
 
-                    def get_update(student): # Map callback function
-
-                        if student['id'] == id:
-                            student['name'] = name
-                            student['age'] = age
-                            student['mentor'] = mentor
-                            student['major'] = major
-                            student['obj'] = Student(id, name, age, mentor, major)
-                            return student
+                    if student['id'] == id:
+                        student['name'] = name
+                        student['age'] = age
+                        student['mentor'] = mentor
+                        student['major'] = major
+                        student['obj'] = Student(id, name, age, mentor, major)
                         return student
+                    return student
 
-                    students_list = map(get_update,Student.all_student)
-                    Student.write_to_csv_file(students_list)
-                    print("""
+                students_list = map(get_update,Student.all_student)
+                Student.write_to_csv_file(students_list)
 
-                    === Student Details Updated Sucessfully!!! ===
-                    """)
-
-                except TypeError:
-                    Student.update_student()
-
-            else: # No valid Id
                 print("""
-                Id not found in record
 
+                === Student Details Updated Sucessfully!!! ===
                 """)
 
-        except KeyboardInterrupt:
-             Student.keyboard_interrupt_handler()
+                return {"status": 200} # To mimic a response from server
+
+        else: # No valid Id
+            print("""
+            Id not found in record
+
+            """)
+
+
 
     @classmethod
     def delete_student(cls):

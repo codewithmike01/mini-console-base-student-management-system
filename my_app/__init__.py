@@ -22,10 +22,10 @@ def switch_option(opt):
         Student.display_students()
 
     elif opt == '2':
-        Student.update_student()
+        Student.accept_update_input()
 
     elif opt == '3':
-        Student.insert_student()
+        Student.accept_initial_input()
 
     elif opt == '4':
         Student.delete_student()
