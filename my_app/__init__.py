@@ -1,5 +1,6 @@
 
-from lib.student import Student
+from lib.student import Student, Person
+
 
 def display_options():
     print("""
@@ -30,7 +31,7 @@ def switch_option(opt):
         Student.delete_student()
 
     elif opt == '5':
-        return exit()
+        Person.keyboard_interrupt_handler()
 
 
 def main():
@@ -47,13 +48,7 @@ def main():
         option: str = str(input('Select an Option: '))
 
     except KeyboardInterrupt:
-
-        print("""
-
-            ======= Exist Program Gracefully!!! =======
-
-              """)
-        return exit()
+        Person.keyboard_interrupt_handler()
 
     while option != 5:
         switch_option(option)
