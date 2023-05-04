@@ -2,6 +2,10 @@
 
 This is a Mini Student console base Management system, the aim of this personal project is to pratice , PEP8 convection, Solid principle, Unit Testing, and clean code in python
 
+## Preview
+
+![01_mini_console_base_student_MIS_Insert](https://user-images.githubusercontent.com/58771507/236326775-b0d59dab-3cab-49aa-bf90-082ec1bda4b2.png)
+
 ## Features
 
 - Student details
