@@ -195,10 +195,12 @@ class Student(Person):
 
     @classmethod
     def display_students(cls):
-         print('Students display')
-         for student in cls.all_student:
+         print(f"""
+         ===== Display All {len(Student.all_student)} Students =====
+         """)
+         for index, student in enumerate(cls.all_student):
 
-              print(Student.__repr__(student['obj']))
+              print(Student.__repr__(student['obj'], index))
 
 
     @classmethod
@@ -249,9 +251,10 @@ class Student(Person):
 
 
 
-    def __repr__(self):
+    def __repr__(self, index):
 
             return f"""
+            === ( {int(index) + 1 } ) ===
     Id: {self.id}
     Name: {self.name}
     Age: {self.age}
