@@ -9,6 +9,7 @@ class Student(Person):
          super().__init__(id, name, age, major)
          self.mentor = mentor
 
+    @staticmethod
     def accept_initial_input():
         """
         accept_initial_input process students insert values.
@@ -41,6 +42,7 @@ class Student(Person):
 
              """)
 
+    @staticmethod
     def accept_update_input():
         """
         accept_update_input process students update values.
@@ -207,6 +209,7 @@ class Student(Person):
                             student_list['major'],
                         ])
 
+    @staticmethod
     def is_valid_id(id):
         """
         is_valid_id checks if id is present in record returns true
