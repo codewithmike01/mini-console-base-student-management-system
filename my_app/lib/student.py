@@ -64,7 +64,7 @@ class Student(Person):
         if Student.is_valid_id(id):
             name, age, mentor, major = Student.accept_update_input()
 
-            def get_update(student):
+            def get_update(student): # Map callback function
 
                 if student['id'] == id:
                     student['name'] = name
@@ -78,6 +78,10 @@ class Student(Person):
 
             students_list = map(get_update,Student.all_student)
             Student.write_to_csv_file(students_list)
+            print("""
+
+            === Student Details Updated Sucessfully!!! ===
+            """)
 
         else: # No valid Id
             print("""
@@ -96,12 +100,23 @@ class Student(Person):
         id = str(input('Enter Student selected Id: '))
 
         if Student.is_valid_id(id):
-            def filtered_students(student):
+
+            def filtered_students(student): # Filter Callback Function
                 if (student['id'] != id):
                     return student
 
             new_students = filter(filtered_students,Student.all_student)
             Student.write_to_csv_file(new_students)
+            print("""
+
+            === Student Details Deleted Sucessfully!!! ===
+            """)
+
+        else: # No valid Id
+            print("""
+            Id not found in record
+
+            """)
 
 
 
