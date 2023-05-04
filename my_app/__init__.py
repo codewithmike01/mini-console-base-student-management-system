@@ -12,6 +12,11 @@ def display_options():
 
 
 def switch_option(opt):
+    """
+    switch_option controls the routing of options,
+    and calling the expected function.
+
+    """
     if opt == '1':
         Student.display_students()
 
