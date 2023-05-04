@@ -239,7 +239,6 @@ class Student(Person):
     def intsantiate_students_from_file(cls):
         """Display all students in the csv file.
 
-
         Operation: All students are loaded into
         class property all_student in array of objects
 
