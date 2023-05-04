@@ -7,3 +7,18 @@ class Person:
         self.name = name
         self.age = age
         self.major = major
+
+    @classmethod
+    def keyboard_interrupt_handler(cls):
+        """
+        keyboard_interrupt_handler is
+        a Person class method thats enables
+        gracefully exist of program.
+
+        """
+        print("""
+
+        ======= Exist Program Gracefully!!! =======
+
+            """)
+        return exit()

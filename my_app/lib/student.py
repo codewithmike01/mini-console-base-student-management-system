@@ -1,6 +1,7 @@
 import csv
 from lib.person import Person
 
+
 class Student(Person):
     all_student = []
 
@@ -9,29 +10,50 @@ class Student(Person):
          self.mentor = mentor
 
     def accept_initial_input():
+
         id = str(input('Enter Student Id () : '))
 
-        if Student.is_valid_id(id):
+        if Student.is_valid_id(id): # Check of ID Already exist
             print("""
             Id is taken, Use a different Id
             """)
             Student.accept_initial_input()
 
         name = str(input('Enter Student name: '))
-        age = int(input('Enter Student age: '))
-        mentor = str(input('Enter Student mentor: '))
-        major = str(input('Enter Student major: '))
 
-        return id, name, age, mentor, major
+        # Handle Exception ValueError on int age
+
+        try:
+            age = int(input('Enter Student age: '))
+            mentor = str(input('Enter Student mentor: '))
+            major = str(input('Enter Student major: '))
+            return id, name, age, mentor, major
+
+        except ValueError:
+             print("""
+
+             ====== You should enter number(s) for age ======
+
+             """)
 
 
     def accept_update_input():
-        name = str(input('Enter Student name: '))
-        age = int(input('Enter Student age: '))
-        mentor = str(input('Enter Student mentor: '))
-        major = str(input('Enter Student major: '))
 
-        return  name, age, mentor, major
+        try:
+
+            name = str(input('Enter Student name: '))
+            age = int(input('Enter Student age: '))
+            mentor = str(input('Enter Student mentor: '))
+            major = str(input('Enter Student major: '))
+
+            return  name, age, mentor, major
+
+        except ValueError:
+             print("""
+
+             ====== You should enter number(s) for age ======
+
+             """)
 
 
     def insert_student():
@@ -42,12 +64,20 @@ class Student(Person):
         mentor(str), major(str)
         """
 
-        id, name, age, mentor, major = Student.accept_initial_input()
-        Student.save_student_details_csv_file(id, name, age, mentor, major)
-        print("""
+        try: # Exception Handler
+            id, name, age, mentor, major = Student.accept_initial_input()
+            Student.save_student_details_csv_file(id, name, age, mentor, major)
+            print("""
 
-        === Student Details Saved Sucessfully!!! ===
-        """)
+            === Student Details Saved Sucessfully!!! ===
+            """)
+
+        except TypeError:
+             Student.insert_student()
+
+        except KeyboardInterrupt:
+             Student.keyboard_interrupt_handler()
+
 
     def update_student():
 
@@ -58,36 +88,45 @@ class Student(Person):
 
         Attribute: Id is str
         """
+        try:
 
-        id = str(input('Enter Student selected Id: '))
-
-        if Student.is_valid_id(id):
-            name, age, mentor, major = Student.accept_update_input()
-
-            def get_update(student): # Map callback function
-
-                if student['id'] == id:
-                    student['name'] = name
-                    student['age'] = age
-                    student['mentor'] = mentor
-                    student['major'] = major
-                    student['obj'] = Student(id, name, age, mentor, major)
-                    return student
-                return student
+            id = str(input('Enter Student selected Id: '))
 
 
-            students_list = map(get_update,Student.all_student)
-            Student.write_to_csv_file(students_list)
-            print("""
+            if Student.is_valid_id(id):
+                try: # Exception Handler
+                    name, age, mentor, major = Student.accept_update_input()
 
-            === Student Details Updated Sucessfully!!! ===
-            """)
+                    def get_update(student): # Map callback function
 
-        else: # No valid Id
-            print("""
-            Id not found in record
+                        if student['id'] == id:
+                            student['name'] = name
+                            student['age'] = age
+                            student['mentor'] = mentor
+                            student['major'] = major
+                            student['obj'] = Student(id, name, age, mentor, major)
+                            return student
+                        return student
 
-            """)
+                    students_list = map(get_update,Student.all_student)
+                    Student.write_to_csv_file(students_list)
+                    print("""
+
+                    === Student Details Updated Sucessfully!!! ===
+                    """)
+
+                except TypeError:
+                    Student.update_student()
+
+            else: # No valid Id
+                print("""
+                Id not found in record
+
+                """)
+
+        except KeyboardInterrupt:
+             Student.keyboard_interrupt_handler()
+
 
     def delete_student():
         """Accept Student Id.
@@ -97,26 +136,32 @@ class Student(Person):
 
         Attribute: Id is str
         """
-        id = str(input('Enter Student selected Id: '))
 
-        if Student.is_valid_id(id):
+        try:
 
-            def filtered_students(student): # Filter Callback Function
-                if (student['id'] != id):
-                    return student
+            id = str(input('Enter Student selected Id: '))
 
-            new_students = filter(filtered_students,Student.all_student)
-            Student.write_to_csv_file(new_students)
-            print("""
+            if Student.is_valid_id(id):
 
-            === Student Details Deleted Sucessfully!!! ===
-            """)
+                def filtered_students(student): # Filter Callback Function
+                    if (student['id'] != id):
+                        return student
 
-        else: # No valid Id
-            print("""
-            Id not found in record
+                new_students = filter(filtered_students,Student.all_student)
+                Student.write_to_csv_file(new_students)
+                print("""
 
-            """)
+                === Student Details Deleted Sucessfully!!! ===
+                """)
+
+            else: # No valid Id
+                print("""
+                Id not found in record
+
+                """)
+
+        except KeyboardInterrupt:
+             Student.keyboard_interrupt_handler()
 
 
 
