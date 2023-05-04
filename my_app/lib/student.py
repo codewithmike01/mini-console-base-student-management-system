@@ -10,6 +10,11 @@ class Student(Person):
          self.mentor = mentor
 
     def accept_initial_input():
+        """
+        accept_initial_input process students insert values.
+
+        No Parameters
+        """
 
         id = str(input('Enter Student Id () : '))
 
@@ -36,8 +41,12 @@ class Student(Person):
 
              """)
 
-
     def accept_update_input():
+        """
+        accept_update_input process students update values.
+
+        No Parameters
+        """
 
         try:
 
@@ -55,13 +64,12 @@ class Student(Person):
 
              """)
 
-
-    def insert_student():
+    @classmethod
+    def insert_student(cls):
         """
-        Accept Student details..
+        insert_student.
 
-        Attribute: name is (str), age(int),
-        mentor(str), major(str)
+        No Parameters
         """
 
         try: # Exception Handler
@@ -78,20 +86,19 @@ class Student(Person):
         except KeyboardInterrupt:
              Student.keyboard_interrupt_handler()
 
+    @classmethod
+    def update_student(cls):
 
-    def update_student():
+        """update_student.
 
-        """Accept Student Id.
-
-        Use stude id to map student and
+        Use student id to map students list and
         update student detail
 
-        Attribute: Id is str
+        Attribute: id is str
         """
         try:
 
             id = str(input('Enter Student selected Id: '))
-
 
             if Student.is_valid_id(id):
                 try: # Exception Handler
@@ -127,14 +134,13 @@ class Student(Person):
         except KeyboardInterrupt:
              Student.keyboard_interrupt_handler()
 
+    @classmethod
+    def delete_student(cls):
+        """
+        delete_student Use student id to filter student and
+        delete student detail.
 
-    def delete_student():
-        """Accept Student Id.
-
-        Use student id to filter student and
-        delete student detail
-
-        Attribute: Id is str
+        Attribute: id is str
         """
 
         try:
@@ -166,12 +172,29 @@ class Student(Person):
 
 
     def save_student_details_csv_file(id, name, age, mentor, major):
+        """
+        save_student_details_csv_file into the csv file for students
+        record, appending to the existing data.
+
+
+        Attribute: id: str , name: str,
+        age: int, major: str, mentor: str
+        """
         with open("./data/students.csv",'a', newline='') as student:
             student_writer = csv.writer(student)
             student_writer.writerow([id, name, age, mentor, major])
 
 
     def write_to_csv_file(new_student_list):
+        """
+        write_to_csv_file writes into the csv file for students
+        record and overriding previous data
+        Accepts: Array of student object.
+
+        Attribute: [{
+          id , name, age, major, mentor
+          }].
+        """
         with open('./data/students.csv', 'w', newline='') as student:
                     for student_list in new_student_list:
 
@@ -184,10 +207,13 @@ class Student(Person):
                             student_list['major'],
                         ])
 
-
-
-
     def is_valid_id(id):
+        """
+        is_valid_id checks if id is present in record returns true
+        returns False if id does not exist in record.
+
+        Attribute: id.
+        """
         for student in Student.all_student:
             if id == student['id']:
                 return True
@@ -195,13 +221,16 @@ class Student(Person):
 
     @classmethod
     def display_students(cls):
+         """display_students
+         displays all students in the record.
+
+         """
          print(f"""
          ===== Display All {len(Student.all_student)} Students =====
          """)
          for index, student in enumerate(cls.all_student):
 
               print(Student.__repr__(student['obj'], index))
-
 
     @classmethod
     def intsantiate_students_from_file(cls):
