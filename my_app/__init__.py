@@ -40,7 +40,20 @@ def main():
 
     display_options()
 
-    option: str = str(input('Select an Option: '))
+    #Exception Handled For Keyboard Interrupt
+
+    try:
+
+        option: str = str(input('Select an Option: '))
+
+    except KeyboardInterrupt:
+
+        print("""
+
+            ======= Exist Program Gracefully!!! =======
+
+              """)
+        return exit()
 
     while option != 5:
         switch_option(option)
